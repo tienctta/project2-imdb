@@ -4,13 +4,13 @@ var conn = db.getConnection();
 
 function getAllMovie() {
     var defer = q.defer();
-    conn.query('SELECT * FROM admin_movie', function (err, movie) { //posts là gì ??
+    conn.query('SELECT * FROM movie', function (err, movies) { 
         if (err) {
             // return false;
             defer.reject(err);
         } else {
             // return result;
-            defer.resolve(posts);
+            defer.resolve(movies);
         }
     });
     return defer.promise;
@@ -19,7 +19,7 @@ function getAllMovie() {
 function addMovie(movie) {
     if (movie) {
         var defer = q.defer();
-        conn.query('INSERT INTO admin_movie SET ?', movie, function (err, result) {
+        conn.query('INSERT INTO movie SET ?', movie, function (err, result) {
             if (err) {
                 // return false;
                 defer.reject(err);
@@ -36,23 +36,24 @@ function addMovie(movie) {
 
 function getMovieById(id) {
     var defer = q.defer();
-    conn.query('SELECT * FROM admin_movie WHERE ?', {id: id}, function (err, posts) {
+    conn.query('SELECT * FROM movie WHERE id = ?', [id], function (err, movie) {
         if (err) {
             // return false;
             defer.reject(err);
         } else {
             // return result;
-            defer.resolve(posts);
+            defer.resolve(movie);
         }
     });
     return defer.promise;
 }
 
 function updateMovie(params) {
+    console.log(params);
     if (params) {
         var defer = q.defer();
-        conn.query('UPDATE posts SET content = ?,genre = ?,releaseDate = ?,productionCo = ?,rate_average = ?,total_review = ? WHERE id = ?',
-            [params.content, params.genre, params.releaseDate, params.productionCo, params.rate_average, params.total_review, params.id], function (err, result) {
+        conn.query('UPDATE movie SET movieName = ?, trailer = ?, poster = ?, content = ?, genre = ?, releaseDate = ?, productionCo = ?, rate_average = ?, total_review = ? WHERE id = ?',
+            [params.movieName, params.trailer, params.poster, params.content, params.genre, params.releaseDate, params.productionCo, params.rate_average, params.total_review, params.id], function (err, result) {
                 if (err) {
                     // return false;
                     defer.reject(err);

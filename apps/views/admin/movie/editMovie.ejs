@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Edit Movie</title>
+    <% include ../layout/head%>
+    <script src="//cdn.tinymce.com/4/tinymce.min.js"></script>
+    <script type="text/javascript" src="ejs_production.js"></script>
+    <script>tinymce.init({ selector:'textarea' });</script>
+</head>
+
+<body>
+    <div class="container">
+        <% include ../layout/nav_post%>
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                Edit Movie Details
+            </div>
+            <div class="panel-body">
+                <div class="row">
+                    <div class="col-lg-12">
+                        <%if(data&&data.error){%>
+                        <div id="login-alert" class="alert alert-danger col-sm-12">
+                            <%=data.error%>
+                        </div>
+                        <%}%>
+                        <form role="form" method="PUT" action="">
+                            <input class="id" type="hidden" name="id" value="<% if(data && data.movie){%> <%=data.movie.id%>
+                                <%}%>">
+                            <div class="form-group">
+                                <label>MovieName</label>
+                                <input class="form-control movieName" name="movieName" placeholder="" value="
+                                <% if(data&&data.movie){%> <%=data.movie.movieName%>
+                                <%}%>">
+                            </div>
+                            <div class="form-group">
+                                <label>Trailer</label>
+                                <input class="form-control trailer" name="trailer" placeholder="" value="
+                                <% if(data&&data.movie){%> <%=data.movie.trailer%>
+                                <%}%>">
+                            </div>
+                            <div class="form-group">
+                                <label>Poster</label>
+                                <input class="form-control poster" name="poster" placeholder="" value="
+                                <% if(data&&data.movie){%> <%=data.movie.poster%>
+                                <%}%>" type="url">
+                            </div>
+                            <div class="form-group">
+                                <label>Content</label>
+                                <textarea class="form-control" name="content" placeholder="">
+                                    <% if(data&&data.movie){%> <%=data.movie.content%>
+                                    <%}%>
+                                </textarea>
+                            </div>
+                            <div class="form-group">
+                                <label>Genre</label>
+                                <input class="form-control genre" name="genre" placeholder="" value="
+                                <% if(data&&data.movie){%> <%=data.movie.genre%>
+                                <%}%>">
+                            </div>
+                            <div class="form-group">
+                                <label>Release Date</label>
+                                <input class="form-control releaseDate" name="releaseDate" placeholder="" value="
+                                <% if(data&&data.movie){%> <%=data.movie.releaseDate%>
+                                <%}%>">
+                            </div>
+                            <div class="form-group">
+                                <label>ProductionCo</label>
+                                <input class="form-control productionCo" name="productionCo" placeholder="" value="
+                                <% if(data&&data.movie){%> <%=data.movie.productionCo%>
+                                <%}%>">
+                            </div>
+                            <div class="form-group">
+                                <label>Rate Average</label>
+                                <input class="form-control rate_average" name="rate_average" placeholder="" value="
+                                <% if(data&&data.movie){%> <%=data.movie.rate_average%>
+                                <%}%>">
+                            </div>
+                            <div class="form-group">
+                                <label>Total Review</label>
+                                <input class="form-control total_review" name="total_review" placeholder="" value="
+                                <% if(data&&data.movie){%> <%=data.movie.total_review%>
+                                <%}%>">
+                            </div>
+                            
+                            <input type="submit" name="" value="Edit" class="btn btn-success movie_edit" />
+                        </form>
+                    </div>
+                    <!-- /.col-lg-6 (nested) -->
+                </div>
+                <!-- /.row (nested) -->
+            </div>
+            <!-- /.panel-body -->
+        </div>
+    </div>
+    <script type="text/javascript" src="/static/js/movie.js"></script>
+</body>
+
+</html>

@@ -5,8 +5,6 @@ var movie_md = require("../models/movie");
 var helper = require("../helpers/helper");
 
 
-
-
 router.get("/", function (req, res) {
 
     if (req.session.user) {
@@ -60,17 +58,12 @@ router.post("/signup", function(req, res) {
         console.log("retype");
         res.render ("signup", {data: {error: "fullName is not null"} });
     }
-
-
     // insert to database
-    var password_hash = helper.hash_password(user.pw);
-
     user_insert = {
         userName: user.userName,
         email: user.email,
         fullName: user.fullName,
-        pw: password_hash,
-       
+        pw: user.pw
     };
 
     if (user_insert.email.length != 0 && user.pw.length != 0 && user.pw == user.repw) {
@@ -106,51 +99,109 @@ router.post("/signin", function(req, res) {
         if (data) {
             data.then(function(users) {
                 var user = users[0];
-
                 if (users.length == 0) {
                     res.render("signin", { data: { error: "Email is not exist" } });
                 }
-
-
-                var status = helper.compare_password(params.pw, user.pw);
-                if (!status) {
+                console.log(params.pw);
+                console.log(user.pw);
+                if (params.pw != user.pw) {
                     res.render("signin", { data: { error: "Password is not exactly" } });
                 } else {
+                    
                     req.session.user = user;
                     console.log(req.session.user);
-                    res.redirect("public/imdbclone.html"); // ???
+                    res.redirect("imdbclone"); // ???
                 }
             });
         }
     }
 });
 
-router.get("/movie/addMovie", function(res, req) {
-    if (res.session.user) {
-        res.render("admin/movie/addMovie", { data: {error: false} });
-    } else {
-        res.redirect("admin/signin");
-    }
+router.get("/imdbclone", function(req, res) {
+    //if(res.session.user) {
+        var data = movie_md.getAllMovie();
+        data.then(function(movies){
+            var data = {
+                movies: movies,
+                error: false
+            }
+            //console.log(data);
+            res.render("imdbclone", {data: data, movies: movies});
+        }).catch(function(err){
+            var data = {
+                error: "Could not get movie"
+            }
+            res.render("imdbclone", {data: data});
+        });
+    // }else {
+    //     res.redirect("admin/signin");
+    // }
+    
 });
+
+
+router.get("/movieDetails/:id", function(req, res) {
+    //if (req.session.user) {
+        var params = req.params;
+        var id = params.id;
+        var data = movie_md.getMovieById(id);
+        if (data) {
+            data.then(function(movies) {
+                var movie = movies[0];
+                var data = {
+                    movie: movie,
+                    error: false
+                };
+                res.render("movieDetails", { data: data });
+            }).catch(function(err) {
+                var data = {
+                    error: "Could not get Movie"
+                };
+                res.render("movieDetails", { data: data });
+            });
+        } else {
+            var data = {
+                error: "Could not get Movie"
+            };
+            res.render("movieDetails", { data: data });
+        }
+    // } else {
+    //     res.redirect("/admin/signin");
+    // }
+});
+
+router.get("/movie/addMovie", function(req, res) {
+    //if (res.session.user) {
+        res.render("admin/movie/addMovie", { data: {} });
+    // } else {
+    //     res.redirect("signin");
+    // }
+});
+
 router.post("/movie/addMovie", function(req, res) {
     var params = req.body;
-
-    if (params.name.trim().length == 0) {
+    if (params.movieName.trim().length == 0) {
         var data ={
             error: "please enter a MovieName"
         };
         res.render("admin/movie/addMovie", {data: data});
     } else {
         var movie = {
-            name: params.name,
+            movieName: params.movieName,
+            trailer: params.trailer,
+            poster: params.poster,
             content: params.content,
             genre: params.genre,
-            productionCo: params.productionCo
+            releaseDate: params.releaseDate,
+            productionCo: params.productionCo,
+            rate_average: params.rate_average,
+            total_review: params.total_review
         };
-        console.log(params);
-        var data = movie_md.addMovie(params);
-
-        data.then(function(result) {
+        // console.log(movie);
+        
+        var data = movie_md.addMovie(movie);
+        // console.log(data);
+        data.then(function(data) {
             res.redirect("/admin");
         }).catch(function(err){
             var data = {
@@ -160,35 +211,103 @@ router.post("/movie/addMovie", function(req, res) {
         });
 
     }
+
+    // so sanh cac truong trong bang
 });
 
 router.get("/movie", function(res, req){
-    if (req.session.user) {
+    //if (req.session.user) {
         res.redirect("/admin");
-    } else {
-        res.redirect("/admin/signin");
-    }
+    // } else {
+    //     res.redirect("/admin/signin");
+    // }
 })
 
-router.get("/user", function(req, res){
-    if(res.session.user) {
-        var data = user_md.getAllUser();
-        data.then(function(users){
+
+
+router.get("/movie/listMovie", function(req, res){
+   //if(res.session.user) {
+        var data = movie_md.getAllMovie();
+        data.then(function(movies){
             var data = {
-                users: users,
+                movies: movies,
                 error: false
             }
-            res.render("admin/user", {data: data});
+            //console.log(data);
+            res.render("admin/movie/listMovie", {data: data});
         }).catch(function(err){
             var data = {
-                error: "Could not get user"
+                error: "Could not get movie"
             }
-            res.render("admin/user", {data: data});
+            res.render("admin/movie/listMovie", {data: data});
         });
-    }else {
-        res.redirect("/admin/signin");
+    // }else {
+    //     res.redirect("admin/signin");
+    // }
+});
+
+router.get("/movie/editMovie/:id", function(req, res) {
+    //if (req.session.user) {
+        var params = req.params;  
+        var id = params.id;
+        var data = movie_md.getMovieById(id);
+        if (data) {
+            data.then(function(movies) {
+                var movie = movies[0];
+                var data = {
+                    movie: movie,
+                    error: false
+                };
+                res.render("admin/movie/editMovie", { data: data });
+            }).catch(function(err) {
+                var data = {
+                    error: "Could not get Movie"
+                };
+                res.render("admin/movie/editMovie", { data: data });
+            });
+        } else {
+            var data = {
+                error: "Could not get Movie"
+            };
+            res.render("admin/movie/editMovie", { data: data });
+        }
+    // } else {
+    //     res.redirect("/admin/signin");
+    // }
+
+});
+
+router.put("/movie/editMovie/:id", function(req, res) {
+    console.log("Update the movie");
+    var params = req.body;
+    var data = movie_md.updateMovie(params);
+    console.log(data);
+    if (!data) {
+        res.json({ status_code: 500 });
+    } else {
+        data.then(function(result) {
+            res.json({ status_code: 200 });
+        }).catch(function(err) {
+            res.json({ status_code: 500 });
+        });
     }
 });
+
+router.delete("/movie/delete", function(req, res) {
+    var movie_id = req.body.id;
+
+    var data = movie_md.deleteMovie(movie_id);
+    if (!data) {
+        res.json({ status_code: 500 });
+    } else {
+        data.then(function(result) {
+            res.json({ status_code: 200 });
+        }).catch(function(err) {
+            res.json({ status_code: 500 });
+        });
+    }
+});
+
 
 
 

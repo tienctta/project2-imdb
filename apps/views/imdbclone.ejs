@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html lang="en" >
+
+<head>
+  <meta charset="UTF-8">
+  <title>IMDb clone</title>
+  
+  
+  <link rel='stylesheet' href='https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css'>
+  <link rel="stylesheet" href="/static/css/style.css">
+
+  
+</head>
+
+<body>
+
+  <div id="wrapper">
+  
+  <header>
+    
+    <nav>
+      
+      <!-- <img class="logo" src="http://ia.media-imdb.com/images/M/MV5BMTczNjM0NDY0Ml5BMl5BcG5nXkFtZTgwMTk1MzQ2OTE@._V1_.png"/> -->
+      <ul class="nav">
+        <li class="active">movies</li>
+        <li>news</li>
+      </ul>
+      <div class="user">
+        <i class="fa fa-gear user-settings"></i>
+        <img class="user-icon" src="https://scontent.fhan5-4.fna.fbcdn.net/v/t1.0-9/53618402_1968779323429288_7126051605417295872_n.jpg?_nc_cat=104&_nc_oc=AQm2NOQCZJowND7iiQI6_kzYE4D7rq1fc1vsY1scuZ8AZaI1PsuDWV9URH7FZXWBmH4Q2ORSF72nat9D8I49wvsC&_nc_ht=scontent.fhan5-4.fna&oh=bab1f670277cedb6b90f82b6b3dbd99a&oe=5D14652A"/>
+      </div><!--user end-->
+      
+    </nav>
+    
+    <div class="movie-info">
+      <h1>Avengers EndGame</h1>
+      <ul class="genre">
+        <li>action</li>
+        <li>adventure</li>
+        <li>fantasy</li>
+      </ul><!--genre-->
+      <button onclick="window.location.href='https://www.youtube.com/watch?v=TcMBFSGVi1c'">watch trailer <i class="fa fa-play-circle-o"> </i></button>
+      <h3>In Theaters</h3>
+      <h4>26 April, 2019 (USA)</h4>
+    </div><!--movie-info end-->
+    
+  </header>
+  
+  <main>
+    
+    <ul class="options">
+      <li class="active">in theaters</li>
+      <li>coming soon</li>
+      <li>charts</li>
+      <li>tv series</li>
+      <li>trailers</li>
+    </ul>
+    
+    <div id="forms">
+      <div class="buttons">
+        <i class="fa fa-navicon"></i>
+        <i class="fa fa-th"></i>
+      </div>
+      <form id="range-form">
+      <p>IMDb Rating</p>
+      <div class="group">    
+        <input id="range" type="range" min="6.0" max="8.3" step="0.1" value="6">
+        <p id="results">6</p>
+      </div>
+    </form>
+
+    <form id="search-form">
+      <input id="search" type="search" results="5" placeholder="Search Movies...">
+      <i class="fa fa-search"></i>
+    </form>
+  </div><!--forms-->
+    
+    <section id="movies">      
+            <% movies.forEach(function(movie) { %>
+              <figure>
+                <img src="<%= movie.poster %>"/>
+                <figcaption>
+                  <h5><%= movie.movieName %></h5>
+                  <p><%= movie.genre %></p>
+                  <div class="rating">
+                    <i class="fa fa-heart"></i>
+                    <h4><%= movie.rate_average %></h4>
+                  </div>
+<!-- ONCLICK BUTTON -->
+                  <button onclick="window.location.href='/admin/movieDetails/<%=movie.id%>'">                                
+                    <i class="fa fa-plus"></i>
+                  </button>
+                </figcaption>
+              </figure>
+            <%})%>
+    </section>
+  </main><!--container end-->
+  <!-- <div class="loading"><i class="fa fa-spinner"></i></div> -->
+  <footer>
+    <div>
+      <h3>IMDb</h3>
+      <div class="social-links">
+        <i class="fa fa-facebook"></i>
+        <i class="fa fa-instagram"></i>
+      </div><!--social-links end-->
+      <p>1990-2019 imdb.com, inc</p>
+    </div>
+    <a href="#">show menu</a>
+  </footer>
+</div><!--wrapper end-->
+  
+  
+
+    <script>
+      const results = document.getElementById('results');
+      const range_form = document.getElementById('range-form');
+      const search_form = document.getElementById('search-form');
+      const movieSection = document.querySelector('#movies');
+
+
+/*
+FUNCTIONS
+*/
+const search_filter = function(e) {
+  e.preventDefault();
+  const search_value = this.querySelector('#search').value.toUpperCase();
+  const movieList = document.querySelectorAll('figure');
+  for(let i = 0; i < movieList.length; i++) {
+    const movie_movieName = movieList[i].querySelector('h5').textContent;
+    const movie_genre = movieList[i].querySelector('p').textContent;
+    if(movie_movieName.toUpperCase().indexOf(search_value) > -1) {
+      movieList[i].style.display = '';
+    } else {
+      movieList[i].style.display = 'none';
+    }
+  }
+};
+
+
+const rating_filter = function() {
+  
+  const rating_value = +this.querySelector('#range').value;
+  results.textContent = rating_value;
+  const movieList = document.querySelectorAll('figure');
+  
+const rating_results = movie.filter(mv => mv.rate_average === rating_value)
+.map(mv => `
+<figure>
+  <img src="${mv.poster}" />
+  <figcaption>
+    <h5>${mv.movieName}</h5>
+    <p>${mv.genre}</p>
+    <div class="rating">
+      <i class="fa fa-heart"></i>
+      <h4>${mv.rate_average}</h4>
+    </div>
+    <button>
+      <i class="fa fa-plus"></i>
+    </button>
+  </figcaption>
+</figure>`);
+    movieSection.innerHTML = rating_results;
+}
+
+// SHORTEN MOVIE TITLE IF LENGTH IS MORE THEN 26 CHARACTERS
+// const text_truncate = function(str, length, ending) {
+//   cif (length == null) {
+//     length = 100;
+//   }
+//   if (ending == null) {
+//     ending = '...';
+//   }
+//   if (str.length > length) {
+//     return str.substring(0, length - ending.length) + ending;
+//   } else {
+//     return str;
+//   }
+// };
+
+// LOOP THROUGH ARRAY & CREATE A TEMPLATE
+let template = '';
+movies.forEach((movie) => {
+
+  template += `
+  <figure>
+    <img src="${movie.poster}" />
+    <figcaption>
+      <h5>${movie.movieName}</h5>
+      <p>${movie.genre}</p>
+      <div class="rating">
+        <i class="fa fa-heart"></i>
+        <h4>${movie.rate_average}</h4>
+      </div>
+      <button>
+        <i class="fa fa-plus"></i>
+      </button>
+    </figcaption>
+  </figure>`;  
+});
+movieSection.innerHTML = template;
+
+
+// FILTER THROUGH MOVIES BY TITLE & GENRE
+search_form.addEventListener('input', search_filter);
+
+// FILTER MOVIES BY RATING
+range_form.addEventListener('input', rating_filter);
+
+    </script>
+
+<script src="/static/js/movie.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+<script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+<script src='http://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js'></script>
+
+</body>
+
+</html>

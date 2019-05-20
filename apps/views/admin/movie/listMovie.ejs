@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Movies</title>
+    <% include ../layout/head%>
+</head>
+
+<body>
+    <div class="container">
+        <% include ../layout/nav_post%>
+        <div class="row" style="margin-bottom:10px;   ">
+            <div class="col-md-12">
+                <a href="/admin/movie/addMovie" class="btn btn-success pull-right"> Add new Movie</a>
+            </div>
+        </div>
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                Movies
+            </div>
+            <!-- /.panel-heading -->
+            <div class="panel-body">
+                <div class="table-responsive">
+                    <table class="table table-striped table-bordered table-hover">
+                        <thead>
+                            <tr>
+                                <th>ID</th>
+                                <th>MovieName</th>
+                                <th>Trailer</th>
+                                <th>Poster</th>
+                                <th>Content</th>
+                                <th>Genre</th>
+                                <th>Release Date</th>
+                                <th>ProductionCo</th>
+                                <th>Rate_Average</th>
+                                <th>Total_Review</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <% if(data&&data.movies){%>
+                            <%for(var i = 0;i< data.movies.length;i++){%>
+                            <tr>
+                                <td>
+                                    <%=data.movies[i].id%>
+                                </td>
+                                <td>
+                                    <%=data.movies[i].movieName%>
+                                </td>
+                                <td>
+                                    <%=data.movies[i].trailer%>
+                                </td>
+                                <td>
+                                    <%=data.movies[i].poster%>
+                                </td>
+                                <td>
+                                    <%=data.movies[i].content%>
+                                </td>
+                                <td>
+                                    <%=data.movies[i].genre%>
+                                </td>
+                                <td>
+                                    <%=data.movies[i].releaseDate%>
+                                </td>
+                                <td>
+                                    <%=data.movies[i].productionCo%>
+                                </td>
+                                <td>
+                                    <%=data.movies[i].rate_average%>
+                                </td>
+                                <td>
+                                    <%=data.movies[i].total_review%>
+                                </td>
+                                 <td>
+                                    <a href="/admin/movie/editMovie/<%= data.movies[i].id%>" class="btn btn-primary">Edit</a>
+                                    
+                                </td>
+                                 <td>
+                                   <button class="btn btn-danger movie_delete" movie_id="<%=data.movies[i].id%>"> Delete </button>  
+                                </td> 
+                                
+                            </tr>
+                            <%}%>
+                            <%}%>
+                        </tbody>
+                    </table>
+                </div>
+                <!-- /.table-responsive -->
+            </div>
+            <!-- /.panel-body -->
+        </div>
+    </div>
+    <script type="text/javascript" src="/static/js/movie.js"></script> 
+</body>
+
+</html>

@@ -23,10 +23,18 @@
                             <%=data.error%>
                         </div>
                         <%}%>
-                        <form role="form" method="MOVIE" action="/admin/movie/addMovie">
+                        <form role="form" method="POST" action="/admin/movie/addMovie">
                             <div class="form-group">
                                 <label>MovieName</label>
-                                <input class="form-control" name="name" placeholder="MovieName">
+                                <input class="form-control" name="movieName" placeholder="MovieName">
+                            </div>
+                            <div class="form-group">
+                                <label >Trailer</label>
+                                <input class="form-control" name="trailer">
+                            </div>
+                            <div class="form-group">
+                                <label >Poster</label>
+                                <input class="form-control" name="poster" type="url">
                             </div>
                             <div class="form-group">
                                 <label>Content</label>
@@ -38,8 +46,20 @@
                                 <input class="form-control" name="genre" placeholder="genre">
                             </div>
                             <div class="form-group">
+                                <label>ReleaseDate</label>
+                                <input class="form-control" name="releaseDate" placeholder="realeaseDate">
+                            </div>
+                            <div class="form-group">
                                 <label>productionCo</label>
                                 <input class="form-control" name="productionCo" placeholder="productionCo">
+                            </div>
+                            <div class="form-group">
+                                <label>Rate Average</label>
+                                <input class="form-control" name="rate_average" placeholder="rate">
+                            </div>
+                            <div class="form-group">
+                                <label>Total Review</label>
+                                <input class="form-control" name="total_review" placeholder="review">
                             </div>
                             <input type="submit" name="" value="Add" class="btn btn-success" />
                         </form>

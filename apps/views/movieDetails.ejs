@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="en" >
+
+<head>
+  <meta charset="UTF-8">
+  <title>Movie Details</title>
+  
+  
+  <link rel='stylesheet' href='https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css'>
+
+      <link rel="stylesheet" href="/static/css/style.css">
+      <link rel="stylesheet" href="/static/css/style2.css">
+      <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" />
+
+  
+</head>
+
+<body>
+
+  <div id="wrapper">
+  
+  <header>
+    
+    <nav>
+      
+      <!-- <img class="logo" src=""/> -->
+      <ul class="nav">
+        <li class="active">movies</li>
+        <li>news</li>
+      </ul>
+      <div class="user">
+        <i class="fa fa-gear user-settings"></i>
+        <img class="user-icon" src="https://scontent.fhan5-4.fna.fbcdn.net/v/t1.0-9/53618402_1968779323429288_7126051605417295872_n.jpg?_nc_cat=104&_nc_oc=AQm2NOQCZJowND7iiQI6_kzYE4D7rq1fc1vsY1scuZ8AZaI1PsuDWV9URH7FZXWBmH4Q2ORSF72nat9D8I49wvsC&_nc_ht=scontent.fhan5-4.fna&oh=bab1f670277cedb6b90f82b6b3dbd99a&oe=5D14652A"/>
+      </div><!--user end-->
+      
+    </nav>
+    
+  </header>
+  
+  <main>
+    
+    
+  <section class="container">
+            
+    <div class="col-sm-8 col-md-9">
+      <div class="movie" id="movie" data-id-movie="1">
+          <h2 class="page-heading"><%= data.movie.movieName %></h2>
+          
+          <div class="movie__info">
+            <div class="row">
+              <div class="col-sm-6 col-md-4 movie-mobile">
+                <div class="movie__images">
+                  <span class="movie__rating">5.0</span>
+                  <img alt='' src="<%= data.movie.poster %>">
+                  </div>
+                  
+                  <div class="movie__rate"> Your vote
+                    <div class="stars" data-stars="1">
+                     <svg height="23" width="23" class="star rating" data-rating="1">
+                       <polygon points="9.9, 1.1, 3.3, 21.78, 19.8, 8.58, 0, 8.58, 16.5, 21.78" style="fill-rule:nonzero;"/>
+                     </svg>
+                     <svg height="23" width="23" class="star rating" data-rating="2">
+                       <polygon points="9.9, 1.1, 3.3, 21.78, 19.8, 8.58, 0, 8.58, 16.5, 21.78" style="fill-rule:nonzero;"/>
+                     </svg>
+                     <svg height="23" width="23" class="star rating" data-rating="3">
+                       <polygon points="9.9, 1.1, 3.3, 21.78, 19.8, 8.58, 0, 8.58, 16.5, 21.78" style="fill-rule:nonzero;"/>
+                     </svg>
+                     <svg height="23" width="23" class="star rating" data-rating="4">
+                       <polygon points="9.9, 1.1, 3.3, 21.78, 19.8, 8.58, 0, 8.58, 16.5, 21.78" style="fill-rule:nonzero;"/>
+                     </svg>
+                     <svg height="23" width="23" class="star rating" data-rating="5">
+                      <polygon points="9.9, 1.1, 3.3, 21.78, 19.8, 8.58, 0, 8.58, 16.5, 21.78" style="fill-rule:nonzero;"/>
+                     </svg>
+                    </div>
+                  </div>
+              </div>
+          
+              <div class="col-sm-6 col-md-6">
+                  <!-- <p class="movie__time">169 min</p> -->
+
+                  <p class="movie__option"><strong>ProductionCo: </strong><a href="#"><%= data.movie.productionCo %> </a></p>
+                  <p class="movie__option"><strong>Genre: </strong><a href="#"><%= data.movie.genre %> </a></p>
+                  <p class="movie__option"><strong>Release date: </strong><%= data.movie.releaseDate %></p>
+                  <p class="movie__option"><strong>Rating: </strong><a href="#"><%= data.movie.rate_average %></a></p>
+                  <p class="movie__option"><strong>Total-Reviews: </strong><a href="#"><%= data.movie.total_review %></a></p>
+
+                  <a href="#" class="comment-link">Comments:  15</a>
+
+              
+              </div>
+              </div>
+          </div>
+          
+          <div class="clearfix"></div>
+          
+          <h2 class="page-heading">The plot</h2>
+
+          <p class="movie__describe"><%= data.movie.content %></p>
+
+
+      </div>
+
+      
+      <div class="choose-container">
+          <div class="clearfix"></div>
+          <h2 class="page-heading">comments</h2>
+
+          <div class="comment-wrapper">
+              <form id="comment-form" class="comment-form" method='post'>
+                  <textarea class="comment-form__text" id='comment-value' placeholder='Add you comment here'></textarea>
+                  <label class="comment-form__info">250 characters left</label>
+                  <button type='submit' class="btn btn-md btn--danger comment-form__btn" id="add-comment">add comment</button>
+              </form>
+
+              <div class="comment-sets">
+
+              <div class="comment">
+                  <div class="comment__images">
+                      <img alt='' src="">
+                  </div>
+
+                  <a href='#' class="comment__author"><span class="social-used fa fa-facebook"></span>Roberta Inetti</a>
+                  <p class="comment__date">today | 03:04</p>
+                  <p class="comment__message">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut vitae enim sollicitudin, euismod erat id, fringilla lacus. Cras ut rutrum lectus. Etiam ante justo, volutpat at viverra a, mattis in velit. Morbi molestie rhoncus enim, vitae sagittis dolor tristique et.</p>
+                  <a href='#' class="comment__reply">Reply</a>
+              </div>
+
+              <div class="comment-more">
+                  <a href="#" class="watchlist">Show more comments</a>
+              </div>
+
+          </div>
+          </div>
+      </div>
+  </div>
+
+
+</section>              
+     
+  </main><!--container end-->
+  <div class="loading"><i class="fa fa-spinner"></i></div>
+  <footer>
+    <div>
+      <h3>IMDb</h3>
+      <div class="social-links">
+        <i class="fa fa-facebook"></i>
+        <i class="fa fa-instagram"></i>
+      </div><!--social-links end-->
+      <p>1990-2019 imdb.com, inc</p>
+    </div>
+    <a href="#">show menu</a>
+  </footer>
+</div><!--wrapper end-->
+  
+  
+
+    <script  src="/static/js/index.js"></script>
+    <!-- jQuery library -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+    <!-- Latest compiled JavaScript -->
+    <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+    <script src='http://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js'></script>
+    <script type="text/javascript" src="/static/js/ejs_production.js"></script>
+    <script src="/static/js/custom.js"></script>
+    <script src="/static/js/rate_svg.js"></script>
+
+
+</body>
+
+</html>
