@@ -22,8 +22,6 @@ router.get("/", function (req, res) {
         res.redirect("/admin/signin");
     }
 
-
-
 });
 router.get("/signup", function(req, res){
     res.render("signup", {data: {} });
@@ -118,7 +116,8 @@ router.post("/signin", function(req, res) {
 });
 
 router.get("/imdbclone", function(req, res) {
-    //if(res.session.user) {
+    if(res.session.user) {
+        var params = req.params;1
         var data = movie_md.getAllMovie();
         data.then(function(movies){
             var data = {
@@ -133,11 +132,78 @@ router.get("/imdbclone", function(req, res) {
             }
             res.render("imdbclone", {data: data});
         });
-    // }else {
-    //     res.redirect("admin/signin");
-    // }
+    }else {
+        res.redirect("admin/signin");
+    }
     
 });
+
+// router.get("/imdbsearch/:id", function(req, res) {
+//     //if (req.session.user) {
+//         var params = req.params;
+//         var id = params.id;
+//         var data = movie_md.getMovieById(id);
+
+//         if (data) {
+//             data.then(function(mvs) {
+//                 var mv = mvs[0];
+//                 var data = {
+//                     mv: mv,
+//                     error: false
+//                 };
+//                 res.render("imdbsearch", { data: data });
+//             }).catch(function(err) {
+//                 var data = {
+//                     error: "Could not get Movie"
+//                 };
+//                 res.render("imdbsearch", { data: data });
+//             });
+//         } else {
+//             var data = {
+//                 error: "Could not get Movie"
+//             };
+//             res.render("imdbsearch", { data: data });
+//         }
+//     // } else {
+//     //     res.redirect("/admin/signin");
+//     // }
+// });
+
+router.post("/ajax", function(req, res){
+    var params = req.body;
+    
+    var movieList = movie_md.getAllMovie();
+    var results = [];
+    if (movieList) {
+        movieList.then(function(mvs) {
+            
+            for (var mv = 0; mv <= mvs.length; mv ++){
+                if (mvs[mv].movieName.indexOf(params.movieName) !== -1){
+                    results.push(mvs[mv]);
+                    // console.log(results);
+                    // return results;
+                    res.send(results);
+                } else {
+                    res.send("false");
+                }
+            }
+            // res.render("imdbsearch", { data: data });
+        }).catch(function(err) {
+            var data = {
+                error: "Could not get Movie"
+            };
+            res.render("imdbsearch", { data: data });
+        });
+    } else {
+        var data = {
+            error: "Could not get Movie"
+        };
+        res.render("imdbsearch", { data: data });
+    }
+    // console.log(params.movieName+"xhsgxhs");
+    
+});
+
 
 
 router.get("/movieDetails/:id", function(req, res) {

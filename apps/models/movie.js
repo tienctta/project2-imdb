@@ -48,6 +48,20 @@ function getMovieById(id) {
     return defer.promise;
 }
 
+function getMovieByMovieName(movieName) {
+    var defer = q.defer();
+    conn.query('SELECT * FROM movie WHERE movieName = ?', [movieName], function(err, movie){
+        if (err){
+            defer.reject(err);
+        } else {
+            defer.resolve(movie);
+        }
+    });
+    return defer.promise;
+}
+
+
+
 function updateMovie(params) {
     console.log(params);
     if (params) {
@@ -93,4 +107,5 @@ module.exports = {
     getMovieById: getMovieById,
     updateMovie: updateMovie,
     deleteMovie: deleteMovie,
+    getMovieByMovieName: getMovieByMovieName,
 };

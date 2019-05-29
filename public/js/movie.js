@@ -43,11 +43,40 @@ function movie() {
                 }
 			});
 		});
+
+		
 	}
 	bindEvent();
 }
 
 
-$(document).ready(function(){
-	new movie();
-})
+
+// $(document).ready(function(){
+// 	// new movie();
+// 	$("#search").change(function (e){
+// 		console.log("dsgdhsg");
+// 		var params = {
+// 			id: $(".id").val(),
+// 			movieName: $(this).val(),
+// 			trailer: $(".trailer").val(),
+// 			poster: $(".poster").val(),
+// 			content: tinymce.get("content").getContent(),
+// 			genre: $(".genre").val(),
+// 			releaseDate: $(".releaseDate").val(),
+// 			productionCo: $(".productionCo").val(),
+// 			rate_average: $(".rate_average").val(),
+// 			total_review: $(".total_review").val(),
+// 		};
+// 		var base_url = location.protocol +"//"+ document.domain +":"+ location.port;
+// 		$.ajax({
+// 			url: base_url + "/ajax",
+// 			type: "POST",
+// 			data: params,
+// 			success: function (results) {
+// 				if (results.length !== 0) {
+					
+// 				}
+// 			}
+// 		});
+// 	});
+// });

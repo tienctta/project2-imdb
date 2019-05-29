@@ -70,48 +70,29 @@
     </form>
 
     <form id="search-form">
-      <input id="search" type="search" results="6" placeholder="Search Movies..."> 
-        <i class="fa fa-search"></i>
+      <input id="search" type="search" results="5" placeholder="Search Movies...">
+      <i class="fa fa-search"></i>
     </form>
   </div><!--forms-->
-
-     <section id="results">      
-          <figure>
-            <img id = "poster" src=""/>
-            <figcaption>
-              <h5 id="movieName"></h5>
-              <p id="genre"></p>
-              <div id="heart" class="rating">
-                <i class="fa fa-heart"></i>
-                <h4 id="rate_average"></h4>
-              </div>
-              <a id="id" href="">
-                <button>                          
-                <i class="fa fa-plus"></i>
-                </button>
-              </a>
-            </figcaption>
-          </figure>
-      </section>
-
+    
     <section id="movies">      
-            <% movies.forEach(function(movie) { %>
+            
               <figure>
-                <img src="<%= movie.poster %>"/>
+                <img src="<%= data.mv.poster %>"/>
                 <figcaption>
-                  <h5><%= movie.movieName %></h5>
-                  <p><%= movie.genre %></p>
+                  <h5><%= data.mv.movieName %></h5>
+                  <p><%= data.mv.genre %></p>
                   <div class="rating">
                     <i class="fa fa-heart"></i>
-                    <h4><%= movie.rate_average %></h4>
+                    <h4><%= data.mv.rate_average %></h4>
                   </div>
 <!-- ONCLICK BUTTON -->
-                  <button onclick="window.location.href='/admin/movieDetails/<%=movie.id%>'">                                
+                  <button onclick="window.location.href='/admin/movieDetails/<%=data.mv.id%>'">                                
                     <i class="fa fa-plus"></i>
                   </button>
                 </figcaption>
               </figure>
-            <%})%>
+            
     </section>
   </main><!--container end-->
   <!-- <div class="loading"><i class="fa fa-spinner"></i></div> -->
@@ -130,13 +111,14 @@
   
   
 
- <script src="/static/js/index.js"></script>
+<script src="/static/js/index.js">
+     </script>
 
-<!-- <script src="/static/js/movie.js"></script> -->
+<script src="/static/js/movie.js"></script>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
 <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
 <script src='http://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js'></script>
-<script src="/static/js/search.js"></script>
+
 </body>
 
 </html>
